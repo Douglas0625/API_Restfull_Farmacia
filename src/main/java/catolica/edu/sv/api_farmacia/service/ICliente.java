@@ -10,4 +10,5 @@ public interface ICliente {
 
     ClienteEntity save(ClienteEntity cliente);
 
+    List<ClienteEntity> findByIdCliente(long idCliente);
 }

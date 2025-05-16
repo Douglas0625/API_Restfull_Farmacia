@@ -24,4 +24,9 @@ public class ClienteImpl implements ICliente {
         return clienteRepository.save(cliente);
     }
 
+    @Override
+    public List<ClienteEntity> findByIdCliente(long idCliente) {
+        return clienteRepository.findByIdCliente(idCliente);
+    }
+
 }

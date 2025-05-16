@@ -27,8 +27,21 @@ public class ClienteController {
                 .build(),HttpStatus.OK);
     }
 
+    @Transactional(readOnly = true)
+    @GetMapping("/consultarCliente/{idCliente}")
+    public ResponseEntity<?>  findByIdCliente(@PathVariable Long idCliente) {
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Proceso realizado con exito.")
+                .data(iCliente.findByIdCliente(idCliente))
+                .build(), HttpStatus.OK);
+    }
+
+//    public List<ClienteEntity> findByIDCliente(@PathVariable("idCliente") long idCliente) {
+//        return iCliente.findByIdCliente(idCliente);
+//    }
+
     @Transactional
-    @PostMapping("/clientes")
+    @PostMapping("/cliente")
     public ClienteEntity saveCliente(@RequestBody ClienteEntity cliente) {
         return iCliente.save(cliente);
     }
