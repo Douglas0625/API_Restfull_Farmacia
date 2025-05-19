@@ -36,14 +36,39 @@ public class ClienteController {
                 .build(), HttpStatus.OK);
     }
 
-//    public List<ClienteEntity> findByIDCliente(@PathVariable("idCliente") long idCliente) {
-//        return iCliente.findByIdCliente(idCliente);
-//    }
 
     @Transactional
     @PostMapping("/cliente")
     public ClienteEntity saveCliente(@RequestBody ClienteEntity cliente) {
         return iCliente.save(cliente);
+    }
+
+    @PutMapping("/cliente/{idCliente}")
+    public ResponseEntity<?> updateCliente(@PathVariable Long idCliente, @RequestBody ClienteEntity clienteRequest) {
+        List<ClienteEntity> clientesExistentes = iCliente.findByIdCliente(idCliente);
+
+        if (clientesExistentes.isEmpty()) {
+            return new ResponseEntity<>(MessageResponse.builder()
+                    .message("Cliente no encontrado con el ID: " + idCliente)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        ClienteEntity clienteExistente = clientesExistentes.get(0);
+
+        // Actualizar campos
+        clienteExistente.setNombre(clienteRequest.getNombre());
+        clienteExistente.setApellido(clienteRequest.getApellido());
+        clienteExistente.setCorreo(clienteRequest.getCorreo());
+        clienteExistente.setTelefono(clienteRequest.getTelefono());
+        clienteExistente.setMembresia(clienteRequest.isMembresia());
+
+        // Guardar actualizado
+        ClienteEntity clienteActualizado = iCliente.save(clienteExistente);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Cliente actualizado correctamente.")
+                .data(clienteActualizado)
+                .build(), HttpStatus.OK);
     }
 
 }
