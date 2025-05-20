@@ -1,5 +1,6 @@
 package catolica.edu.sv.api_farmacia.service;
 
+import catolica.edu.sv.api_farmacia.entities.ClienteEntity;
 import catolica.edu.sv.api_farmacia.entities.EmpleadoEntity;
 import catolica.edu.sv.api_farmacia.entities.ProveedorEntity;
 
@@ -11,5 +12,8 @@ public interface IEmpleado {
 
     //crear Endpoints POST equicalente al insert en SQL
     EmpleadoEntity save(EmpleadoEntity empleado);
+
+    List<EmpleadoEntity> findByIdEmpleado(long idEmpleado);
+
 
 }

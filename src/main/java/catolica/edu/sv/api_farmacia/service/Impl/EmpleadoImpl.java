@@ -1,5 +1,6 @@
 package catolica.edu.sv.api_farmacia.service.Impl;
 
+import catolica.edu.sv.api_farmacia.entities.ClienteEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import catolica.edu.sv.api_farmacia.entities.EmpleadoEntity;
@@ -23,5 +24,10 @@ public class EmpleadoImpl implements IEmpleado {
     public EmpleadoEntity save(EmpleadoEntity empleado) {
         return empleadoRepository.save(empleado);
     }
+
+    public List<EmpleadoEntity> findByIdEmpleado(long idEmpleado) {
+        return empleadoRepository.findByIdEmpleado(idEmpleado);
+    }
+
 
 }
