@@ -1,6 +1,8 @@
 package catolica.edu.sv.api_farmacia.controller;
 
+import catolica.edu.sv.api_farmacia.dto.ClienteRequestDTO;
 import catolica.edu.sv.api_farmacia.entities.payload.MessageResponse;
+import catolica.edu.sv.api_farmacia.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +41,20 @@ public class ClienteController {
 
     @Transactional
     @PostMapping("/cliente")
-    public ClienteEntity saveCliente(@RequestBody ClienteEntity cliente) {
-        return iCliente.save(cliente);
+    public ResponseEntity<?> saveCliente(@RequestBody ClienteRequestDTO dto) {
+        ClienteEntity cliente = new ClienteEntity();
+        cliente.setNombre(dto.getNombre());
+        cliente.setApellido(dto.getApellido());
+        cliente.setCorreo(dto.getCorreo());
+        cliente.setTelefono(dto.getTelefono());
+        cliente.setMembresia(dto.isMembresia());
+
+        iCliente.save(cliente);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Cliente registrado correctamente.")
+                .data(cliente)
+                .build(), HttpStatus.CREATED);
     }
 
     @PutMapping("/cliente/{idCliente}")
