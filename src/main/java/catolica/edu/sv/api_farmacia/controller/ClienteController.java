@@ -2,7 +2,6 @@ package catolica.edu.sv.api_farmacia.controller;
 
 import catolica.edu.sv.api_farmacia.dto.ClienteRequestDTO;
 import catolica.edu.sv.api_farmacia.entities.payload.MessageResponse;
-import catolica.edu.sv.api_farmacia.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

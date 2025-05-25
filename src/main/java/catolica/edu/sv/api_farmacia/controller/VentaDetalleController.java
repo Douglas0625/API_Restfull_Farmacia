@@ -59,5 +59,33 @@ public class VentaDetalleController {
                 .data(detalle)
                 .build(), HttpStatus.CREATED);
     }
+
+    @PutMapping("/ventadetalle/{idVenta}/{idProducto}")
+    public ResponseEntity<?> updateVentaDetalle(
+            @PathVariable Long idVenta,
+            @PathVariable Long idProducto,
+            @RequestBody VentaDetalleRequestDTO dto) {
+
+        VentaDetalleId id = new VentaDetalleId(idVenta, idProducto);
+        VentaDetalleEntity detalleExistente = iVentaDetalle.findById(id)
+                .orElse(null);
+
+        if (detalleExistente == null) {
+            return new ResponseEntity<>(MessageResponse.builder()
+                    .message("Detalle de venta no encontrado con idVenta: " + idVenta + " y idProducto: " + idProducto)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        detalleExistente.setCantidad(dto.getCantidad());
+        detalleExistente.setPrecio(dto.getPrecio());
+
+        VentaDetalleEntity actualizado = iVentaDetalle.save(detalleExistente);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Detalle de venta actualizado correctamente.")
+                .data(actualizado)
+                .build(), HttpStatus.OK);
+    }
+
 }
 

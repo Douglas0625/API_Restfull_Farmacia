@@ -9,4 +9,6 @@ public interface IVenta {
 
     //post
     VentaEntity save(VentaEntity venta);
+
+    List<VentaEntity> findByIdVenta(long idVenta);
 }
