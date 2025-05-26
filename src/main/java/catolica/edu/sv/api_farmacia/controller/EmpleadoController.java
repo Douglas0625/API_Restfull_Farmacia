@@ -1,5 +1,6 @@
 package catolica.edu.sv.api_farmacia.controller;
 
+import catolica.edu.sv.api_farmacia.dto.EmpleadoRequestDTO;
 import catolica.edu.sv.api_farmacia.entities.ClienteEntity;
 import catolica.edu.sv.api_farmacia.entities.payload.MessageResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +35,20 @@ public class EmpleadoController {
     }
 
     @Transactional
-    @PostMapping("/empleados")
-    public EmpleadoEntity saveEmpleado(@RequestBody EmpleadoEntity empleado){
-        return iEmpleado.save(empleado);
+    @PostMapping("/empleado")
+    public ResponseEntity<?> saveEmpleado(@RequestBody EmpleadoRequestDTO dto) {
+        EmpleadoEntity empleado = new EmpleadoEntity();
+        empleado.setNombre(dto.getNombre());
+        empleado.setApellido(dto.getApellido());
+        empleado.setCargo(dto.getCargo());
+        empleado.setSalario(dto.getSalario());
+
+        iEmpleado.save(empleado);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Empleado registrado correctamente.")
+                .data(empleado)
+                .build(), HttpStatus.CREATED);
     }
 
     @PutMapping("/empleado/{idEmpleado}")
