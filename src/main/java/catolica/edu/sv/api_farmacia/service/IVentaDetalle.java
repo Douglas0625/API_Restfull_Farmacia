@@ -13,4 +13,7 @@ public interface IVentaDetalle {
     VentaDetalleEntity save(VentaDetalleEntity ventaDetalle);
 
     Optional<VentaDetalleEntity> findById(VentaDetalleId id);
+
+    void deleteById(VentaDetalleId id);
+
 }

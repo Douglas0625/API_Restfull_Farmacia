@@ -7,4 +7,7 @@ import catolica.edu.sv.api_farmacia.entities.VentaDetalleEntity;
 
 @Repository
 public interface VentaDetalleRepository extends JpaRepository<VentaDetalleEntity, VentaDetalleId> {
+
+    void deleteById(VentaDetalleId id);
+
 }

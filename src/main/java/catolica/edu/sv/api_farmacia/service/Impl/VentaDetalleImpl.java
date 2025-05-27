@@ -30,4 +30,10 @@ public class VentaDetalleImpl implements IVentaDetalle {
     @Override
     public Optional<VentaDetalleEntity> findById(VentaDetalleId id) {
         return ventaDetalleRepository.findById(id);}
+
+    @Override
+    public void deleteById(VentaDetalleId id) {
+        ventaDetalleRepository.deleteById(id);
+    }
+
 }

@@ -87,5 +87,26 @@ public class VentaDetalleController {
                 .build(), HttpStatus.OK);
     }
 
+    @DeleteMapping("/ventadetalle/{idVenta}/{idProducto}")
+    public ResponseEntity<?> deleteVentaDetalle(
+            @PathVariable Long idVenta,
+            @PathVariable Long idProducto) {
+
+        VentaDetalleId id = new VentaDetalleId(idVenta, idProducto);
+        VentaDetalleEntity detalle = iVentaDetalle.findById(id).orElse(null);
+
+        if (detalle == null) {
+            return new ResponseEntity<>(MessageResponse.builder()
+                    .message("Detalle de venta no encontrado con idVenta: " + idVenta + " y idProducto: " + idProducto)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        iVentaDetalle.deleteById(id);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Detalle de venta eliminado correctamente.")
+                .build(), HttpStatus.OK);
+    }
+
 }
 
