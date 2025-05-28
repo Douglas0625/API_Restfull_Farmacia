@@ -8,6 +8,7 @@ import catolica.edu.sv.api_farmacia.repository.VentaRepository;
 import catolica.edu.sv.api_farmacia.service.IVenta;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class VentaImpl implements IVenta{
@@ -27,5 +28,14 @@ public class VentaImpl implements IVenta{
 
     public List<VentaEntity> findByIdVenta(long idVenta) {
         return ventaRepository.findByIdVenta(idVenta);
+    }
+
+    public Optional<VentaEntity> findById(Long idVenta) {
+        return ventaRepository.findById(idVenta);
+    }
+
+    @Override
+    public void deleteById(Long idVenta) {
+        ventaRepository.deleteById(idVenta);
     }
 }

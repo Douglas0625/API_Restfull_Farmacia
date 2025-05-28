@@ -57,5 +57,56 @@ public class VentaController {
                 .data(venta)
                 .build(), HttpStatus.CREATED);
     }
+
+    @PutMapping("/venta/{idVenta}")
+    @Transactional
+    public ResponseEntity<?> updateVenta(
+            @PathVariable Long idVenta,
+            @RequestBody VentaRequestDTO dto) {
+
+        VentaEntity ventaExistente = iVenta.findById(idVenta)
+                .orElse(null);
+
+        if (ventaExistente == null) {
+            return new ResponseEntity<>(MessageResponse.builder()
+                    .message("Venta no encontrada con ID: " + idVenta)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        ClienteEntity cliente = clienteRepository.findById(dto.getIdCliente())
+                .orElseThrow(() -> new RuntimeException("Cliente no encontrado"));
+
+        EmpleadoEntity empleado = empleadoRepository.findById(dto.getIdEmpleado())
+                .orElseThrow(() -> new RuntimeException("Empleado no encontrado"));
+
+        ventaExistente.setCliente(cliente);
+        ventaExistente.setEmpleado(empleado);
+        ventaExistente.setFechaVenta(dto.getFechaVenta());
+
+        VentaEntity actualizada = iVenta.save(ventaExistente);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Venta actualizada correctamente.")
+                .data(actualizada)
+                .build(), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/venta/{idVenta}")
+    @Transactional
+    public ResponseEntity<?> deleteVenta(@PathVariable Long idVenta) {
+        VentaEntity venta = iVenta.findById(idVenta).orElse(null);
+
+        if (venta == null) {
+            return new ResponseEntity<>(MessageResponse.builder()
+                    .message("Venta no encontrada con ID: " + idVenta)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        iVenta.deleteById(idVenta);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Venta eliminada correctamente.")
+                .build(), HttpStatus.OK);
+    }
 }
 
