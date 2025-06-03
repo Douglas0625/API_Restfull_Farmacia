@@ -7,6 +7,7 @@ import catolica.edu.sv.api_farmacia.repository.ProveedorRepository;
 import catolica.edu.sv.api_farmacia.service.IProveedor;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProveedorImpl implements IProveedor {
@@ -22,5 +23,15 @@ public class ProveedorImpl implements IProveedor {
     @Override
     public ProveedorEntity save(ProveedorEntity proveedor) {
         return proveedorRepository.save(proveedor);
+    }
+
+    @Override
+    public Optional<ProveedorEntity> findById(Long id) {
+        return proveedorRepository.findById(id);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        proveedorRepository.deleteById(id);
     }
 }
