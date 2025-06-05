@@ -2,7 +2,9 @@ package catolica.edu.sv.api_farmacia.controller;
 
 import catolica.edu.sv.api_farmacia.dto.EmpleadoRequestDTO;
 import catolica.edu.sv.api_farmacia.entities.ClienteEntity;
+import catolica.edu.sv.api_farmacia.entities.ProductoEntity;
 import catolica.edu.sv.api_farmacia.entities.payload.MessageResponse;
+import catolica.edu.sv.api_farmacia.repository.EmpleadoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +20,8 @@ public class EmpleadoController {
 
     @Autowired
     private IEmpleado iEmpleado;
+    @Autowired
+    private EmpleadoRepository empleadoRepository;
 
     @Transactional(readOnly = true)
     @GetMapping("/empleados")
@@ -75,6 +79,26 @@ public class EmpleadoController {
         return new ResponseEntity<>(MessageResponse.builder()
                 .message("Empleado actualizado correctamente.")
                 .data(empleadoActualizado)
+                .build(), HttpStatus.OK);
+    }
+
+
+
+
+    @DeleteMapping("/empleado/{id}")
+    public ResponseEntity<?> deleteEmpleado(@PathVariable Long id) {
+        EmpleadoEntity existente = empleadoRepository.findById(id).orElse(null);
+
+        if (existente == null) {
+            return new ResponseEntity<>(MessageResponse.builder()
+                    .message("Empleado no encontrado con ID: " + id)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        empleadoRepository.deleteById(id);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Empleado eliminado correctamente.")
                 .build(), HttpStatus.OK);
     }
 }

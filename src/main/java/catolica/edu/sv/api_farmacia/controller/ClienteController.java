@@ -1,7 +1,9 @@
 package catolica.edu.sv.api_farmacia.controller;
 
 import catolica.edu.sv.api_farmacia.dto.ClienteRequestDTO;
+import catolica.edu.sv.api_farmacia.entities.ProductoEntity;
 import catolica.edu.sv.api_farmacia.entities.payload.MessageResponse;
+import catolica.edu.sv.api_farmacia.repository.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -83,5 +85,27 @@ public class ClienteController {
                 .data(clienteActualizado)
                 .build(), HttpStatus.OK);
     }
+
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    @DeleteMapping("/cliente/{id}")
+    public ResponseEntity<?> deleteCliente(@PathVariable Long id) {
+        ClienteEntity existente = clienteRepository.findById(id).orElse(null);
+
+        if (existente == null) {
+            return new ResponseEntity<>(MessageResponse.builder()
+                    .message("Cliente no encontrado con ID: " + id)
+                    .build(), HttpStatus.NOT_FOUND);
+        }
+
+        clienteRepository.deleteById(id);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Cliente eliminado correctamente.")
+                .build(), HttpStatus.OK);
+    }
+
 
 }
