@@ -31,11 +31,9 @@ public class ProveedorController {
     }
 
     @Transactional
-    @PostMapping("/proveedores")
+    @PostMapping("/proveedor")
     public ResponseEntity<?> saveProveedor(@RequestBody ProveedorResquestDTO dto) {
         ProveedorEntity proveedor = new ProveedorEntity();
-
-        proveedor.setIdProveedor(dto.getIdproveedor());
         proveedor.setNombre(dto.getNombre());
         proveedor.setCorreo(dto.getCorreo());
         proveedor.setTelefono(dto.getTelefono());
@@ -52,7 +50,7 @@ public class ProveedorController {
     }
 
     @Transactional
-    @PutMapping("/proveedores/{id}")
+    @PutMapping("/proveedor/{id}")
     public ResponseEntity<?> updateProveedor(@PathVariable Long id, @RequestBody ProveedorResquestDTO dto) {
         ProveedorEntity proveedorExistente = iProveedor.findById(id).orElse(null);
 
@@ -81,7 +79,7 @@ public class ProveedorController {
     }
 
     @Transactional
-    @DeleteMapping("/proveedores/{id}")
+    @DeleteMapping("/proveedor/{id}")
     public ResponseEntity<?> deleteProveedor(@PathVariable Long id) {
         ProveedorEntity proveedor = iProveedor.findById(id).orElse(null);
 

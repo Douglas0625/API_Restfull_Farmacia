@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import catolica.edu.sv.api_farmacia.entities.ProductoEntity;
-import catolica.edu.sv.api_farmacia.service.IProducto;
 
 import java.util.List;
 
@@ -24,18 +23,33 @@ public class ProductoController {
     private ProductoRepository productoRepository;
 
     @Transactional(readOnly = true)
-    @GetMapping("/Productos")
-    public List<ProductoEntity> getProductos() {
-        return iProducto.findAll();
+    @GetMapping("/productos")
+    public ResponseEntity<?> getProductos() {
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Proceso realizado con exito.")
+                .data(iProducto.findAll())
+                .build(),HttpStatus.OK);
     }
 
     @Transactional
-    @PostMapping("/Productos")
-    public ProductoEntity saveProducto(@RequestBody ProductoEntity producto) {
-        return iProducto.save(producto);
+    @PostMapping("/productos")
+    public ResponseEntity<?> saveProducto(@RequestBody ProductoRequestDTO dto) {
+        ProductoEntity producto = new ProductoEntity();
+        producto.setNombre(dto.getNombre());
+        producto.setDescripcion(dto.getDescripcion());
+        producto.setStock(dto.getStock());
+        producto.setPrecio(dto.getPrecio());
+        producto.setFechaCaducidad(dto.getFecha_caducidad());
+
+        iProducto.save(producto);
+
+        return new ResponseEntity<>(MessageResponse.builder()
+                .message("Producto registrado correctamente.")
+                .data(producto)
+                .build(), HttpStatus.CREATED);
     }
 
-    @PutMapping("/Producto/{id}")
+    @PutMapping("/producto/{id}")
     public ResponseEntity<?> updateProducto(
             @PathVariable long id,
             @RequestBody ProductoRequestDTO dto) {
@@ -60,7 +74,7 @@ public class ProductoController {
                 .build(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/Producto/{id}")
+    @DeleteMapping("/producto/{id}")
     public ResponseEntity<?> deleteProducto(@PathVariable long id) {
         ProductoEntity existente = productoRepository.findById(id).orElse(null);
 

@@ -26,7 +26,7 @@ public class ProveedorProductoController {
     private ProductoRepository productoRepository;
 
     @Transactional(readOnly = true)
-    @GetMapping("/proveedorProductos")
+    @GetMapping("/proveedorproductos")
     public ResponseEntity<?> getProveedorProductos() {
         return new ResponseEntity<>(MessageResponse.builder()
                 .message("Proceso realizado con exito.")
@@ -35,7 +35,7 @@ public class ProveedorProductoController {
     }
 
     @Transactional
-    @PostMapping("/proveedorProducto")
+    @PostMapping("/proveedorproducto")
     public ResponseEntity<?> saveProveedorProducto(@RequestBody ProveedorProductoRequestDTO dto) {
         ProveedorEntity proveedor = proveedorRepository.findById(dto.getIdProveedor())
                 .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
