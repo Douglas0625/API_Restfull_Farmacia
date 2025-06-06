@@ -32,7 +32,7 @@ public class ProductoController {
     }
 
     @Transactional
-    @PostMapping("/productos")
+    @PostMapping("/producto")
     public ResponseEntity<?> saveProducto(@RequestBody ProductoRequestDTO dto) {
         ProductoEntity producto = new ProductoEntity();
         producto.setNombre(dto.getNombre());
